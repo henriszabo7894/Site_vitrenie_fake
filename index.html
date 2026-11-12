@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nébuleuse — Site de test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div class="wrap"><nav>
+  <a href="#top" class="logo"><i class="dot"></i>Nébuleuse</a>
+  <div class="links"><a href="#produit">Produit</a><a href="#tarifs">Tarifs</a><a href="#contact">Contact</a></div>
+  <a href="#tarifs" class="btn">Essayer</a>
+</nav></div></header>
+
+<main id="top">
+  <div class="wrap hero">
+    <p class="tag">Entreprise fictive — site de test</p>
+    <h1>Vos données dans le <span>nuage</span>, sans le brouillard.</h1>
+    <p class="lead">Nébuleuse synchronise, chiffre et range vos fichiers automatiquement. Aucun réglage, aucune prise de tête.</p>
+    <div class="ctas"><a href="#tarifs" class="btn">Commencer gratuitement</a><a href="#produit" class="btn ghost">Voir le produit</a></div>
+    <div class="stats">
+      <div class="stat"><b data-count="12400">0</b><small>utilisateurs imaginaires</small></div>
+      <div class="stat"><b data-count="99">0</b><small>% de disponibilité (inventée)</small></div>
+      <div class="stat"><b data-count="3">0</b><small>clics pour démarrer</small></div>
+    </div>
+  </div>
+
+  <section id="produit"><div class="wrap">
+    <p class="tag">Produit</p>
+    <h2>Tout ce qu'il faut, rien de plus.</h2>
+    <div class="grid">
+      <div class="feat"><span class="n">01</span><h3>Synchro instantanée</h3><p>Vos fichiers suivent sur tous vos appareils en temps réel.</p></div>
+      <div class="feat"><span class="n">02</span><h3>Chiffrement de bout en bout</h3><p>Seul vous avez la clé. Même nous, on ne voit rien.</p></div>
+      <div class="feat"><span class="n">03</span><h3>Rangement auto</h3><p>Les fichiers sont triés par type, date et projet.</p></div>
+      <div class="feat"><span class="n">04</span><h3>Historique 30 jours</h3><p>Revenez à n'importe quelle version d'un fichier.</p></div>
+      <div class="feat"><span class="n">05</span><h3>Partage par lien</h3><p>Un lien, une date d'expiration, c'est réglé.</p></div>
+      <div class="feat"><span class="n">06</span><h3>API ouverte</h3><p>Branchez vos scripts et automatisez le reste.</p></div>
+    </div>
+  </div></section>
+
+  <section id="tarifs"><div class="wrap">
+    <p class="tag">Tarifs</p>
+    <h2>Simple et transparent.</h2>
+    <div class="toggle"><button class="on" data-p="m">Mensuel</button><button data-p="y">Annuel −20 %</button></div>
+    <div class="plans">
+      <div class="plan"><h3>Gratuit</h3><div class="price" data-m="0" data-y="0">0 €<small> /mois</small></div><ul><li>5 Go</li><li>1 appareil</li><li>Support communautaire</li></ul><button class="btn ghost buy">Choisir</button></div>
+      <div class="plan hot"><h3>Pro</h3><div class="price" data-m="9" data-y="7">9 €<small> /mois</small></div><ul><li>1 To</li><li>Appareils illimités</li><li>Historique 30 jours</li></ul><button class="btn buy">Choisir</button></div>
+      <div class="plan"><h3>Équipe</h3><div class="price" data-m="24" data-y="19">24 €<small> /mois</small></div><ul><li>5 To partagés</li><li>Gestion des membres</li><li>Support prioritaire</li></ul><button class="btn ghost buy">Choisir</button></div>
+    </div>
+  </div></section>
+
+  <section id="contact"><div class="wrap">
+    <p class="tag">Contact</p>
+    <h2>Une question ?</h2>
+    <form id="f">
+      <input name="nom" placeholder="Nom" required>
+      <input name="email" type="email" placeholder="Email" required>
+      <textarea name="message" rows="4" placeholder="Message" required></textarea>
+      <button class="btn" type="submit">Envoyer</button>
+      <p class="msg" id="msg"></p>
+    </form>
+  </div></section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Nébuleuse — entreprise fictive, site de démonstration.</span><span>Aucune donnée n'est envoyée.</span></div></footer>
+
+<script>
+  // Compteurs animés
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const end=+el.dataset.count, t0=performance.now();
+    const step=t=>{const p=Math.min((t-t0)/1200,1);el.textContent=Math.round(end*(1-Math.pow(1-p,3))).toLocaleString('fr-FR');if(p<1)requestAnimationFrame(step)};
+    requestAnimationFrame(step);
+  });
+  // Bascule mensuel / annuel
+  document.querySelectorAll('.toggle button').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('.toggle button').forEach(x=>x.classList.toggle('on',x===b));
+    document.querySelectorAll('.price').forEach(p=>p.firstChild.textContent=p.dataset[b.dataset.p]+' €');
+  });
+  // Boutons "Choisir"
+  document.querySelectorAll('.buy').forEach(b=>b.onclick=()=>{b.textContent='Sélectionné';setTimeout(()=>b.textContent='Choisir',1500)});
+  // Formulaire (local uniquement)
+  document.getElementById('f').onsubmit=e=>{
+    e.preventDefault();
+    const d=Object.fromEntries(new FormData(e.target));
+    console.log('Formulaire test :',d);
+    document.getElementById('msg').textContent='Merci '+d.nom+', message reçu (test local, rien n\'est envoyé).';
+    e.target.reset();
+  };
+</script>
+</body>
+</html>
